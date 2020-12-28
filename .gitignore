@@ -25,6 +25,11 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+package.json
+package-lock.json
+webpack.config.js
+webpack.generated.js
+/node_modules
 
 ### NetBeans ###
 /nbproject/private/
