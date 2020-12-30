@@ -12,7 +12,7 @@ data class Stay (
     val fullPrice: BigDecimal,
     val dateFrom: LocalDate,
     val dateTo: LocalDate,
-    val standard: Status,
+    val status: Status,
     val guests: String,
     val reservationId: Int,
     val roomId: Int
