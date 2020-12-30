@@ -15,6 +15,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
+	jcenter()
 }
 
 extra["vaadinVersion"] = "14.4.4"
@@ -23,6 +24,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation ("org.jetbrains.exposed:exposed-core:0.17.7")
+	implementation ("org.jetbrains.exposed:spring-transaction:0.17.7")
+	implementation ("org.jetbrains.exposed:exposed-java-time:0.17.7")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("com.vaadin:vaadin-spring-boot-starter")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
