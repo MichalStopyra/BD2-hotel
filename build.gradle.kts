@@ -32,7 +32,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.github.mvysny.karibudsl:karibu-dsl:1.0.4")
-	runtimeOnly("com.h2database:h2")
+	runtimeOnly("com.h2database:h2:1.4.196")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
