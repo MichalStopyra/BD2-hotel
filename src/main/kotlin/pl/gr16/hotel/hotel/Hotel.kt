@@ -2,7 +2,7 @@ package pl.gr16.hotel.hotel
 
 import org.jetbrains.exposed.dao.id.IntIdTable
 enum class HotelStandard {
-    THREE_STARS, FOUR_STARS, FIVE_STARS
+    TRZY_GWIAZKI, CZTERY_GWIAZDKI, PIEC_GWIAZDEK
 }
 
 data class Hotel (
