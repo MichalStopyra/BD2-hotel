@@ -21,7 +21,6 @@ repositories {
 extra["vaadinVersion"] = "14.4.4"
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation ("org.jetbrains.exposed:exposed-core:0.28.1")
