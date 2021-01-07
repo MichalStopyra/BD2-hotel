@@ -1,5 +1,6 @@
 package pl.gr16.hotel.hotel
 
+import org.jetbrains.exposed.dao.id.IntIdTable
 import java.math.BigDecimal
 enum class HotelStandard {
     THREE_STARS, FOUR_STARS, FIVE_STARS
@@ -10,5 +11,10 @@ data class Hotel (
         val name: String,
         val adress: String,
         val hotelStandard: HotelStandard,
-        val fixedCost: BigDecimal
 )
+
+object HotelTable : IntIdTable() {
+    val name = varchar("name", 50)
+    val adress = varchar("adress", 250)
+    val hotelStandard = enumeration("hotelStandard", HotelStandard::class/*.java*/)
+}
