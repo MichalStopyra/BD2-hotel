@@ -9,7 +9,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 enum class Status{
-    FUTURE, ONGOING, FINISHED_UNPAID, FINISHED_PAID
+    PRZYSZLE, TRWAJACE, SKONCZONE_NIEZAPLACONE, SKONCZONE_ZAPLACONE
 }
 
 data class Stay(
