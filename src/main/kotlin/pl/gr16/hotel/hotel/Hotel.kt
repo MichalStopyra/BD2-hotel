@@ -1,7 +1,6 @@
 package pl.gr16.hotel.hotel
 
 import org.jetbrains.exposed.dao.id.IntIdTable
-import java.math.BigDecimal
 enum class HotelStandard {
     THREE_STARS, FOUR_STARS, FIVE_STARS
 }

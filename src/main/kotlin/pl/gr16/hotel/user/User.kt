@@ -10,7 +10,7 @@ data class User(
         val password: String
 )
 
-object UserTable : IntIdTable() {
+object UserTable : IntIdTable(name="UserTab") {
     val firstName = varchar("firstName", 50)
     val lastName = varchar("lastName", 50)
     val login = varchar("login", 50)
