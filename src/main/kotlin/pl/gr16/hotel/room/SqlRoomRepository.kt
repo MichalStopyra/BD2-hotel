@@ -1,16 +1,23 @@
 package pl.gr16.hotel.room
 
-import org.jetbrains.exposed.sql.selectAll
+import kotlinx.coroutines.selects.select
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.springframework.stereotype.Component
+import pl.gr16.hotel.hotel.HotelTable
+import pl.gr16.hotel.room.RoomTable.price
+import pl.gr16.hotel.stay.StayTable
 import java.math.BigDecimal
+import java.sql.ResultSet
+import java.time.LocalDateTime
 
 @Component
-class SqlRoomRepository: RoomRepository {
+class SqlRoomRepository : RoomRepository {
     override fun findAll() =
             RoomTable
                     .selectAll()
                     .map {
-                        Room (
+                        Room(
 
                                 it[RoomTable.id].value,
                                 it[RoomTable.price],
@@ -19,6 +26,50 @@ class SqlRoomRepository: RoomRepository {
                                 it[RoomTable.description],
                                 it[RoomTable.roomStandard],
                                 it[RoomTable.hotelId]
-                                )
+                        )
                     }
+
+    override fun findAvailableRoomsForGivenDate(dateFrom: LocalDateTime, dateTo: LocalDateTime, roomStandard: RoomStandard,
+                                                city: String, nrPeople: Int): List<Room> {
+    val query =
+            """
+                select * from room r 
+                where r.people_nr >= $nrPeople
+                and r.room_standard like $roomStandard
+                and r.hotel_id = ( select id from hotel
+                                    where adress like $city 
+                                    and ROWNUM <= 1)
+                and
+                (r.id !=
+                 (select room_id from stay s
+                    where ($dateFrom between s.date_from and s.date_to )
+                            or ( $dateTo between s.date_from and s.date_to )
+                            or ( $dateFrom <= s.date_from and $dateTo >= s.date_to )
+                 )
+                )
+            """
+        return query.execAndMap { rs ->
+            Room(
+                    id = rs.getInt("id"),
+                    price = rs.getBigDecimal("price"),
+                    peopleNr = rs.getInt("people_nr"),
+                    roomNr = rs.getInt("room_nr"),
+                    description = rs.getString("description"),
+                    roomStandard = RoomStandard.valueOf(rs.getString("room_standard")),
+                    hotelId = rs.getInt("hotel_id")
+            )
+        }
+
+    }
+
+    fun <T : Any> String.execAndMap(transform: (ResultSet) -> T): List<T> {
+        val result = arrayListOf<T>()
+        TransactionManager.current().exec(this) { rs ->
+            while (rs.next()) {
+                result += transform(rs)
+            }
+        }
+        return result
+    }
+
 }
