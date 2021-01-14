@@ -11,7 +11,7 @@ plugins {
 
 group = "pl.gr16"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
 	mavenCentral()
@@ -23,6 +23,7 @@ extra["vaadinVersion"] = "14.4.4"
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation ("org.jetbrains.exposed:exposed-core:0.28.1")
 	implementation ("org.jetbrains.exposed:spring-transaction:0.28.1")
 	implementation ("org.jetbrains.exposed:exposed-java-time:0.28.1")
@@ -44,7 +45,7 @@ dependencyManagement {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "11"
+		jvmTarget = "1.8"
 	}
 }
 
