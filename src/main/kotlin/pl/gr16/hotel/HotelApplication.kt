@@ -1,5 +1,4 @@
 package pl.gr16.hotel
-
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 

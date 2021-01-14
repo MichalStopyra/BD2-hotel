@@ -10,6 +10,7 @@ import pl.gr16.hotel.stay.StayTable
 import java.math.BigDecimal
 import java.sql.ResultSet
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Component
 class SqlRoomRepository : RoomRepository {
@@ -31,20 +32,25 @@ class SqlRoomRepository : RoomRepository {
 
     override fun findAvailableRoomsForGivenDate(dateFrom: LocalDateTime, dateTo: LocalDateTime, roomStandard: RoomStandard,
                                                 city: String, nrPeople: Int): List<Room> {
+        var formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD")
+
+
+        var dateFromFormatted = dateFrom.format(formatter)
+        var dateToFormatted = dateTo.format(formatter)
     val query =
             """
                 select * from room r 
                 where r.people_nr >= $nrPeople
-                and r.room_standard like $roomStandard
+                and r.room_standard like '$roomStandard'
                 and r.hotel_id = ( select id from hotel
-                                    where adress like $city 
+                                    where adress like '$city' 
                                     and ROWNUM <= 1)
                 and
                 (r.id !=
                  (select room_id from stay s
-                    where ($dateFrom between s.date_from and s.date_to )
-                            or ( $dateTo between s.date_from and s.date_to )
-                            or ( $dateFrom <= s.date_from and $dateTo >= s.date_to )
+                    where ('$dateFromFormatted' between s.date_from and s.date_to )
+                            or ( '$dateToFormatted' between s.date_from and s.date_to )
+                            or ( '$dateFromFormatted' <= s.date_from and '$dateToFormatted' >= s.date_to )
                  )
                 )
             """

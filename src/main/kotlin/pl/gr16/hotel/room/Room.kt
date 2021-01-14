@@ -6,8 +6,8 @@ import java.math.BigDecimal
 
 enum class RoomStandard {
         REGULAR, PREMIUM, VIP
-
 }
+
 
 data class Room (
         val id: Int = 0,
