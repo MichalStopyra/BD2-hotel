@@ -32,28 +32,32 @@ class SqlRoomRepository : RoomRepository {
 
     override fun findAvailableRoomsForGivenDate(dateFrom: LocalDateTime, dateTo: LocalDateTime, roomStandard: RoomStandard,
                                                 city: String, nrPeople: Int): List<Room> {
-        var formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD")
 
+
+        var formatter = DateTimeFormatter.ofPattern("YYYY-MM-DD")
 
         var dateFromFormatted = dateFrom.format(formatter)
         var dateToFormatted = dateTo.format(formatter)
-    val query =
+
+
+        val query =
             """
                 select * from room r 
                 where r.people_nr >= $nrPeople
                 and r.room_standard like '$roomStandard'
-                and r.hotel_id = ( select id from hotel
-                                    where adress like '$city' 
-                                    and ROWNUM <= 1)
+                and r.hotel_id = ( select * from (
+                                                    select id from hotel
+                                                        where adress like '$city' ) 
+                                    where ROWNUM <= 1)
                 and
-                (r.id !=
-                 (select room_id from stay s
-                    where ('$dateFromFormatted' between s.date_from and s.date_to )
-                            or ( '$dateToFormatted' between s.date_from and s.date_to )
-                            or ( '$dateFromFormatted' <= s.date_from and '$dateToFormatted' >= s.date_to )
-                 )
-                )
-            """
+               (r.id not in
+                    (select room_id from stay s
+                                        where ('$dateFromFormatted' between s.date_from and s.date_to )
+                                            or ( '$dateToFormatted' between s.date_from and s.date_to )
+                                            or ( '$dateFromFormatted' <= s.date_from and '$dateToFormatted' >= s.date_to )
+                    )
+               ) 
+                """
         return query.execAndMap { rs ->
             Room(
                     id = rs.getInt("id"),
