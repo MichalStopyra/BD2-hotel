@@ -8,4 +8,5 @@ import org.springframework.transaction.annotation.Transactional
 class StayService (
     private val stayRepository: StayRepository) {
     fun findAll() = stayRepository.findAll()
+    fun saveStay(stay: Stay) = stayRepository.createStay(stay)
 }

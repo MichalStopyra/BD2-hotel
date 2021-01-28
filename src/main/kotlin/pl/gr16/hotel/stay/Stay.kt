@@ -24,9 +24,9 @@ data class Stay(
 )
 
 object StayTable : IntIdTable() {
-    val fullPrice = decimal("fullPrice", 3, 2)
-    val dateFrom = datetime("dateFrom")
-    val dateTo = datetime("dateTo")
+    val fullPrice = decimal("FULL_PRICE", 3, 2)
+    val dateFrom = datetime("DATE_FROM")
+    val dateTo = datetime("DATE_TO")
     val status = enumeration("status", Status::class)
     val guests = varchar("guests", 250)
     val reservationId = integer("reservation_id").references(ReservationTable.id)
