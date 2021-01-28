@@ -3405,6 +3405,72 @@ insert into Stay(full_price, date_from, date_to, "status", guests, reservation_i
 2021-01-07 18:40:03 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLException: Table "USER_TAB" already exists; SQL statement:
 create table User_tab( id int primary key auto_increment, first_name varchar(50) not null, last_name varchar(50) not null, login varchar(50) not null, password varchar(50) not null) [42101-196]
+2021-01-14 16:53:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "
+                SELECT * FROM ROOM R 
+                WHERE R.PEOPLE_NR >= 1
+                AND R.ROOM_STANDARD LIKE REGULAR
+                AND R.HOTEL_ID = ( SELECT ID FROM HOTEL
+                                    WHERE ADRESS LIKE WARSZAWA 
+                                    AND ROWNUM <= 1)
+                AND
+                (R.ID !=
+                 (SELECT ROOM_ID FROM STAY S
+                    WHERE (2021-01-14T16[*]:53:48.344 BETWEEN S.DATE_FROM AND S.DATE_TO )
+                            OR ( 2021-01-15T16:53:48.347 BETWEEN S.DATE_FROM AND S.DATE_TO )
+                            OR ( 2021-01-14T16:53:48.344 <= S.DATE_FROM AND 2021-01-15T16:53:48.347 >= S.DATE_TO )
+                 )
+                )
+             "; expected "[, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, ILIKE, REGEXP, IS, IN, BETWEEN, AND, OR, ,, )"; SQL statement:
+
+                select * from room r 
+                where r.people_nr >= 1
+                and r.room_standard like REGULAR
+                and r.hotel_id = ( select id from hotel
+                                    where adress like Warszawa 
+                                    and ROWNUM <= 1)
+                and
+                (r.id !=
+                 (select room_id from stay s
+                    where (2021-01-14T16:53:48.344 between s.date_from and s.date_to )
+                            or ( 2021-01-15T16:53:48.347 between s.date_from and s.date_to )
+                            or ( 2021-01-14T16:53:48.344 <= s.date_from and 2021-01-15T16:53:48.347 >= s.date_to )
+                 )
+                )
+             [42001-196]
+2021-01-14 16:53:48 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "
+                SELECT * FROM ROOM R 
+                WHERE R.PEOPLE_NR >= 1
+                AND R.ROOM_STANDARD LIKE REGULAR
+                AND R.HOTEL_ID = ( SELECT ID FROM HOTEL
+                                    WHERE ADRESS LIKE WARSZAWA 
+                                    AND ROWNUM <= 1)
+                AND
+                (R.ID !=
+                 (SELECT ROOM_ID FROM STAY S
+                    WHERE (2021-01-14T16[*]:53:48.344 BETWEEN S.DATE_FROM AND S.DATE_TO )
+                            OR ( 2021-01-15T16:53:48.347 BETWEEN S.DATE_FROM AND S.DATE_TO )
+                            OR ( 2021-01-14T16:53:48.344 <= S.DATE_FROM AND 2021-01-15T16:53:48.347 >= S.DATE_TO )
+                 )
+                )
+             "; expected "[, ::, *, /, %, +, -, ||, ~, !~, NOT, LIKE, ILIKE, REGEXP, IS, IN, BETWEEN, AND, OR, ,, )"; SQL statement:
+
+                select * from room r 
+                where r.people_nr >= 1
+                and r.room_standard like REGULAR
+                and r.hotel_id = ( select id from hotel
+                                    where adress like Warszawa 
+                                    and ROWNUM <= 1)
+                and
+                (r.id !=
+                 (select room_id from stay s
+                    where (2021-01-14T16:53:48.344 between s.date_from and s.date_to )
+                            or ( 2021-01-15T16:53:48.347 between s.date_from and s.date_to )
+                            or ( 2021-01-14T16:53:48.344 <= s.date_from and 2021-01-15T16:53:48.347 >= s.date_to )
+                 )
+                )
+             [42001-196]
 2021-01-14 17:05:39 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "
                 SELECT * FROM ROOM R 

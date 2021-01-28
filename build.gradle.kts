@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+	id("io.kotest") version "0.2.6"
 	id("org.springframework.boot") version "2.4.1"
 	id("io.spring.dependency-management") version "1.0.10.RELEASE"
 	id("com.vaadin") version "0.8.0"
@@ -12,6 +13,7 @@ plugins {
 group = "pl.gr16"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
+val kotestV = "4.2.6"
 
 repositories {
 	mavenCentral()
@@ -33,7 +35,14 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("com.github.mvysny.karibudsl:karibu-dsl:1.0.4")
 	runtimeOnly("com.h2database:h2:1.4.196")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+//	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+//		exclude("org.junit.vintage", "junit-vintage-engine")
+//	}
+	testImplementation("io.kotest:kotest-runner-junit5-jvm:$kotestV")
+	testImplementation("io.kotest:kotest-assertions-core-jvm:$kotestV")
+	testImplementation("io.kotest:kotest-assertions-arrow-jvm:$kotestV")
+	testImplementation("io.kotest:kotest-property-jvm:$kotestV")
+	testImplementation("io.kotest:kotest-extensions-spring:$kotestV")
 }
 
 dependencyManagement {
@@ -48,6 +57,8 @@ tasks.withType<KotlinCompile> {
 		jvmTarget = "1.8"
 	}
 }
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions.jvmTarget = "1.8"
 
 tasks.withType<Test> {
 	useJUnitPlatform()
