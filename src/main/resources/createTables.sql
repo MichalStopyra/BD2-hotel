@@ -5,6 +5,7 @@ drop table if exists Stay;
 drop table if exists User_tab;
 drop table if exists Supply;
 drop table if exists Supply_to_stay;
+drop table if exists Task;
 
 create table User_tab( id int primary key auto_increment, first_name varchar(50) not null, last_name varchar(50) not null, login varchar(50) not null, password varchar(50) not null);
 create table Hotel ( id int primary key auto_increment, "name" varchar(50) not null, adress varchar(250) not null, hotel_standard varchar(50) not null );
@@ -19,8 +20,8 @@ insert into Hotel("name", adress, hotel_standard) values ('Warszawa Hotel', 'War
 insert into Hotel("name", adress, hotel_standard) values ('Gdansk Hotel', 'Gdansk', 'TRZY_GWIAZDKI');
 insert into Hotel("name", adress, hotel_standard) values ('Wroclaw Hotel', 'Wroclaw', 'CZTsERY_GWIAZDEK');
 
-insert into Task(id, "name", date_when, cost) values (1, "Naprawa kranu", '2021-01-22', 5);
-insert into Task(id, "name", date_when, cost) values (2, "Wymiana klamki", '2021-01-22', 7);
+insert into Task(id, "name", date_when, cost) values (1, 'Naprawa kranu', '2021-01-22', 5);
+insert into Task(id, "name", date_when, cost) values (2, 'Wymiana klamki', '2021-01-22', 7);
 
 insert into Room(price, people_nr, room_nr, description, room_standard, hotel_id) values (500, 4, 1, 'Pokoj z widokiem na wojne', 'REGULAR',1 );
 insert into Room(price, people_nr, room_nr, description, room_standard, hotel_id) values (10000, 5, 200, 'Pokoj z widokiem na morze', 'VIP',1 );

@@ -9,25 +9,16 @@ import java.time.YearMonth
 @Repository
 class BalanceSheetRepository {
   fun forMonth(ym: YearMonth): BalanceSheet {
-    val incomes = incomes(ym)
-    val outflows = outflows(ym)
-    BalanceSheet(
-      ym,
-      incomes.map { it.value }.fold(BigDecimal.ZERO, BigDecimal::add),
-      outflows.map { it.value }.fold(BigDecimal.ZERO, BigDecimal::add),
-      incomes,
-      outflows
-    )
     return sheet1(ym)
   }
 
   private fun incomes(ym: YearMonth): List<Income> {
-    val from = "{$ym.year}-${ym.month.value}-01"
-    val to = "{$ym.year}-${ym.month.value}-${ym.lengthOfMonth()}"
+    val from = "${ym.year}-${ym.month.value}-01"
+    val to = "${ym.year}-${ym.month.value}-${ym.lengthOfMonth()}"
     val query =
       """
-        select * from Supply s 
-        where s.date_when BETWEEN $from AND $to
+        select s."name" as name, s.profit as profit from Supply s JOIN Supply_to_stay sts on s.id = sts.supply_id
+        where sts.date_when BETWEEN '$from' AND '$to'
       """
     return query.execAndMap { rs ->
       Income(
@@ -38,12 +29,12 @@ class BalanceSheetRepository {
   }
 
   private fun outflows(ym: YearMonth): List<Outflow> {
-    val from = "{$ym.year}-${ym.month.value}-01"
-    val to = "{$ym.year}-${ym.month.value}-${ym.lengthOfMonth()}"
+    val from = "${ym.year}-${ym.month.value}-01"
+    val to = "${ym.year}-${ym.month.value}-${ym.lengthOfMonth()}"
     val query =
       """
         select * from Task t
-        where t.date_when BETWEEN $from AND $to
+        where t.date_when BETWEEN '$from' AND '$to'
       """
     return query.execAndMap { rs ->
       Outflow(
@@ -54,22 +45,22 @@ class BalanceSheetRepository {
   }
 
     private fun sheet1(ym: YearMonth): BalanceSheet {
-    val incomes = listOf(
-      Income("stays", BigDecimal(6)),
-      Income("supplies", BigDecimal(4)),
-    )
-    val outflows = listOf(
-      Outflow("rent", BigDecimal(-3)),
-      Outflow("fixes", BigDecimal(-2)),
-    )
-    return BalanceSheet(
-      ym,
-      BigDecimal.TEN,
-      BigDecimal(5),
-      incomes,
-      outflows
-    )
-  }
+      val incomes = listOf(
+        Income("stays", BigDecimal(6)),
+        Income("supplies", BigDecimal(4)),
+      )
+      val outflows = listOf(
+        Outflow("rent", BigDecimal(-3)),
+        Outflow("fixes", BigDecimal(-2)),
+      )
+      return BalanceSheet(
+        ym,
+        BigDecimal.TEN,
+        BigDecimal(5),
+        incomes,
+        outflows
+      )
+    }
 
   fun <T : Any> String.execAndMap(transform: (ResultSet) -> T): List<T> {
     val result = arrayListOf<T>()

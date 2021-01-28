@@ -1,10 +1,12 @@
 package pl.gr16.hotel.balancesheet
 
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.time.Clock
 import java.time.YearMonth
 
 @Component
+@Transactional
 class BalanceSheetFacade(
   private val clock: Clock,
   private val balanceSheetRepository: BalanceSheetRepository
